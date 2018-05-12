@@ -1,1 +1,21 @@
 Project Status updates / Questions
+
+Worked on both tables and driver file. 
+Latest output:
+
+ ----jGRASP exec: java HashTesting
+Input file exists. Reading...
+
+Total collisions for Single Hash table: 459
+With a file of 200 inputs, that equals
+an average of 2.295 collisions per attempt.
+
+Total collisions for Double Hash table: 245
+With a file of 200 inputs, that equals
+an average of 1.225 collisions per attempt.
+
+ ----jGRASP: operation complete.
+ 
+ Looks like it matches the output he gave us in class when he explained the project :)
+ 
+ 5/12 - DC
