@@ -34,7 +34,8 @@ public class TableDoubleHash< K , E >
    private int manyItems;
    private Object[ ] keys;
    private Object[ ] data;
-   private boolean[ ] hasBeenUsed;   
+   private boolean[ ] hasBeenUsed;
+   private int collisions;   
 
    /**
    * Initialize an empty table with a specified capacity.
@@ -57,8 +58,15 @@ public class TableDoubleHash< K , E >
       keys = new Object[capacity];
       data = new Object[capacity];
       hasBeenUsed = new boolean[capacity];
+      collisions=0;
    }
    
+   
+   public int getCollisions()
+   {
+      return collisions;
+   }
+
    
    /**
    * Determines whether a specified key is in this table.
@@ -92,7 +100,7 @@ public class TableDoubleHash< K , E >
          if (key.equals(keys[i]))
             return i;
          count++;
-         i = nextIndex(i);
+         i = nextIndex(i, key);
       }
       
       return -1;
@@ -131,15 +139,27 @@ public class TableDoubleHash< K , E >
       return Math.abs(key.hashCode( )) % data.length;
    }
    
+   /**
+	 * The second hash function that returns the index of the TableDoubleHash's array that corresponds to the provided key.
+	 * @param key
+	 *   The non-null key to hash.
+	 * @precondition
+	 *   Key cannot be null.
+	 * @return
+	 *  The return value is a valid index of the TableDoubleHash's arrays. The index is calculated as the remainder 
+	 *  when the absolute value of the key’s hash code is divided by the size of the TableDoubleHash's arrays minus two.
+	 **/
+
+	private int doubleHash(Object key)
+	{
+		return Math.abs(key.hashCode( )) % (data.length-2)+1;
+	}//End doublehash(Object key) Method
    
-   private int nextIndex(int i)
+   private int nextIndex(int index,K key)
    // The return value is normally i+1. But if i+1 is data.length, then the 
    // return value is zero instead.
    {
-      if (i+1 == data.length)
-         return 0;
-      else
-         return i+1;
+      return (index + doubleHash(key)) % data.length;
    }
    
    
@@ -174,13 +194,17 @@ public class TableDoubleHash< K , E >
       {  // The key is already in the table.
          answer = (E) data[index];
          data[index] = element;
+         collisions++;
          return answer;
       }
       else if (manyItems < data.length)
       {  // The key is not yet in this Table.
          index = hash(key);
          while (keys[index] != null)
-            index = nextIndex(index);
+         {
+            index = nextIndex(index, key);
+            collisions++;
+         }
          keys[index] = key;
          data[index] = element;
          hasBeenUsed[index] = true;

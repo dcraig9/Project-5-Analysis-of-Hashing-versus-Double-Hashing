@@ -1,9 +1,10 @@
-// File: Table.java
-// Complete documentation is available from the Table link in:
-//   http://www.cs.colorado.edu/~main/docs
-
-
 /******************************************************************************
+* File: Table.java
+* CS103 Data Structures - Project # 5 Analysis of Hashing versus Double Hashing
+*   
+* Authors: Donald Craig and Joe Eckstein
+* Date: 05/08/2018
+*******************************************************************************
 * A <CODE>Table</CODE> is an open-address hash table with a fixed capacity.
 * The purpose is to show students how an open-address hash table is
 * implemented. Programs should generally use java.util.Hashtable
@@ -34,7 +35,8 @@ public class Table< K , E >
    private int manyItems;
    private Object[ ] keys;
    private Object[ ] data;
-   private boolean[ ] hasBeenUsed;   
+   private boolean[ ] hasBeenUsed;  
+   private int collisions; 
 
    /**
    * Initialize an empty table with a specified capacity.
@@ -57,7 +59,15 @@ public class Table< K , E >
       keys = new Object[capacity];
       data = new Object[capacity];
       hasBeenUsed = new boolean[capacity];
+      collisions=0;
    }
+   
+   
+   public int getCollisions()
+   {
+      return collisions;
+   }
+   
    
    
    /**
@@ -174,13 +184,17 @@ public class Table< K , E >
       {  // The key is already in the table.
          answer = (E) data[index];
          data[index] = element;
+         collisions++;
          return answer;
       }
       else if (manyItems < data.length)
       {  // The key is not yet in this Table.
          index = hash(key);
          while (keys[index] != null)
+         {
             index = nextIndex(index);
+            collisions++;
+         }
          keys[index] = key;
          data[index] = element;
          hasBeenUsed[index] = true;
