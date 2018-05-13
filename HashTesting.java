@@ -3,7 +3,7 @@
 * CS103 Data Structures - Project # 5 Analysis of Hashing versus Double Hashing
 *
 * Authors: Donald Craig and Joe Eckstein
-* Date: 05/08/2018
+* Date: 05/12/2018
 *
 ********************************************************************************************/
 
@@ -18,8 +18,8 @@ class HashTesting {
       int capacity = 241;
       String firstName;
       int keyNumber;  
-      Table<Integer, String> hashTable = new Table<Integer, String>(241); 
-		TableDoubleHash<Integer, String> doubleHashTable = new TableDoubleHash<Integer, String>(241);
+      Table<Integer, String> hashTable = new Table<Integer, String>(capacity); 
+		TableDoubleHash<Integer, String> doubleHashTable = new TableDoubleHash<Integer, String>(capacity);
 
       File text = new File ("names.txt");
 
@@ -34,7 +34,6 @@ class HashTesting {
       }
 
       Scanner read = new Scanner(text);
-      Table SingleHash = new Table(capacity);
 
       while(read.hasNext())
       {
@@ -52,18 +51,6 @@ class HashTesting {
       System.out.println("Total collisions for Double Hash table: " + doubleHashTable.getCollisions() );
       System.out.println("With a file of 200 inputs, that equals");
       System.out.println("an average of " + ((double)(doubleHashTable.getCollisions()) /200) + " collisions per attempt.");   
-
-         
-
-
-
-
-
-
-
-
-
-
 
 
 

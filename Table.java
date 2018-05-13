@@ -3,7 +3,7 @@
 * CS103 Data Structures - Project # 5 Analysis of Hashing versus Double Hashing
 *   
 * Authors: Donald Craig and Joe Eckstein
-* Date: 05/08/2018
+* Date: 05/12/2018
 *******************************************************************************
 * A <CODE>Table</CODE> is an open-address hash table with a fixed capacity.
 * The purpose is to show students how an open-address hash table is

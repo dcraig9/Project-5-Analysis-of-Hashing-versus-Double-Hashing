@@ -1,9 +1,10 @@
-// File: TableDoubleHash.java
-// Complete documentation is available from the Table link in:
-//   http://www.cs.colorado.edu/~main/docs
-
-
 /******************************************************************************
+* File: TableDoubleHash.java
+* CS103 Data Structures - Project # 5 Analysis of Hashing versus Double Hashing
+*   
+* Authors: Donald Craig and Joe Eckstein
+* Date: 05/12/2018
+*******************************************************************************
 * A <CODE>Table</CODE> is an open-address hash table with a fixed capacity.
 * The purpose is to show students how an open-address hash table is
 * implemented. Programs should generally use java.util.Hashtable
@@ -140,24 +141,16 @@ public class TableDoubleHash< K , E >
    }
    
    /**
-	 * The second hash function that returns the index of the TableDoubleHash's array that corresponds to the provided key.
-	 * @param key
-	 *   The non-null key to hash.
-	 * @precondition
-	 *   Key cannot be null.
-	 * @return
+	 *  The second hash function that returns the index of the TableDoubleHash's array that corresponds to the provided key.
 	 *  The return value is a valid index of the TableDoubleHash's arrays. The index is calculated as the remainder 
-	 *  when the absolute value of the key’s hash code is divided by the size of the TableDoubleHash's arrays minus two.
+	 *  when the absolute value of the key’s hash code is divided by the (size of the TableDoubleHash's arrays minus two) plus 1.
 	 **/
-
 	private int doubleHash(Object key)
 	{
 		return Math.abs(key.hashCode( )) % (data.length-2)+1;
 	}//End doublehash(Object key) Method
    
    private int nextIndex(int index,K key)
-   // The return value is normally i+1. But if i+1 is data.length, then the 
-   // return value is zero instead.
    {
       return (index + doubleHash(key)) % data.length;
    }
